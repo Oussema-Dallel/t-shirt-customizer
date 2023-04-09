@@ -1,0 +1,13 @@
+node_mudles
+dist
+dist-ssr
+
+public
+.eslintrc.js
+jestSetup.ts
+
+src/assets
+src/fonts
+
+*.css
+*.png
