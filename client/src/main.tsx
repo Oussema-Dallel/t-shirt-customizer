@@ -1,4 +1,4 @@
-import App from './App';
+import { App } from './App';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // eslint-disable-next-line import/no-unassigned-import
