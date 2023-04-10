@@ -5,6 +5,12 @@
       "source.fixAll.eslint": true,
     },
     "javascript.validate.enable": false,
-    //"typescript.tsdk": "client/node_modules/typescript/lib",
+    "files.associations": {
+      "*.css": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "typescript.tsdk": "client/node_modules/typescript/lib",
   }
   

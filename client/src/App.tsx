@@ -1,11 +1,16 @@
-import type { ReactElement } from 'react';
+import { Canvas } from './canvas';
+import { Customizer } from './pages/Customizer';
+import { HomePage } from './pages/HomePage';
+import type { FunctionComponent, ReactElement } from 'react';
 
-const App = (): ReactElement => {
+const App: FunctionComponent = (): ReactElement => {
 	return (
-		<div>
-			Hello World!
-		</div>
+		<main className='app transition-all ease-in'>
+			<HomePage />
+			<Customizer />
+			<Canvas />
+		</main>
 	);
 };
 
-export default App;
+export { App };
