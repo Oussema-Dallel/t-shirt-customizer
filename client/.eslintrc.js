@@ -10,7 +10,8 @@ module.exports = {
       'plugin:react/all',
       'plugin:react/jsx-runtime',
       'plugin:react-hooks/recommended',
-      'plugin:unicorn/recommended'
+      'plugin:unicorn/recommended',
+      'plugin:valtio/recommended'
     ],
     parserOptions: {
       parser: '@typescript-eslint/parser',

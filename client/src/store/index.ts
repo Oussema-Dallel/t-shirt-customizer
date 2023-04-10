@@ -12,12 +12,12 @@ interface AppState {
 }
 
 const initialState: AppState = {
-	color: '#eh66ff',
+	color: '#ce9418',
 	fullDecal: './three.png',
 	isFullTexture: false,
 	isIntro: true,
 	isLogoTexture: true,
-	logoDecal: './three.png',
+	logoDecal: './threejs.png',
 };
 
 const globalState = proxy(initialState);
