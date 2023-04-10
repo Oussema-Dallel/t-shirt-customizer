@@ -1,18 +1,20 @@
+import type { AnimationProps } from 'framer-motion';
+
 const transition = { type: 'spring', duration: 0.8 };
 
-const slideAnimation = (direction: string) => {
+const slideAnimation = (direction: string): AnimationProps => {
 	return {
 		initial: {
 			x: direction === 'left'
 				? -100
-				: 				direction === 'right' ? 100 : 0
+				: 				(direction === 'right' ? 100 : 0)
 			,
 			y: direction === 'up'
 				? 100
-				: 				direction === 'down' ? -100 : 0
+				: 				(direction === 'down' ? -100 : 0)
 			,
 			opacity: 0,
-			transition: { ...transition, delay: 0.5 },
+			//transition: { ...transition, delay: 0.5 },
 		},
 		animate: {
 			x: 0,
@@ -21,17 +23,17 @@ const slideAnimation = (direction: string) => {
 			transition: { ...transition, delay: 0 },
 		},
 		exit: {
-			x: direction === 'left' ? -100 : direction === 'right' ? 100 : 0,
-			y: direction === 'up' ? 100 : direction === 'down' ? -100 : 0,
+			x: direction === 'left' ? -100 : (direction === 'right' ? 100 : 0),
+			y: direction === 'up' ? 100 : (direction === 'down' ? -100 : 0),
 			transition: { ...transition, delay: 0 },
 		},
 	};
 };
 
-const fadeAnimation = {
+const fadeAnimation: AnimationProps = {
 	initial: {
 		opacity: 0,
-		transition: { ...transition, delay: 0.5 },
+		//transition: { ...transition, delay: 0.5 },
 	},
 	animate: {
 		opacity: 1,
@@ -43,7 +45,7 @@ const fadeAnimation = {
 	},
 };
 
-const headTextAnimation = {
+const headTextAnimation: AnimationProps = {
 	initial: { x: 100, opacity: 0 },
 	animate: { x: 0, opacity: 1 },
 	transition: {
@@ -55,7 +57,7 @@ const headTextAnimation = {
 	},
 };
 
-const headContentAnimation = {
+const headContentAnimation: AnimationProps = {
 	initial: { y: 100, opacity: 0 },
 	animate: { y: 0, opacity: 1 },
 	transition: {
@@ -69,8 +71,8 @@ const headContentAnimation = {
 	},
 };
 
-const headContainerAnimation = {
-	initial: { x: -100, opacity: 0, transition: { ...transition, delay: 0.5 } },
+const headContainerAnimation: AnimationProps = {
+	initial: { x: -100, opacity: 0 /*transition: { ...transition, delay: 0.5 }*/ },
 	animate: { x: 0, opacity: 1, transition: { ...transition, delay: 0 } },
 	exit: { x: -100, opacity: 0, transition: { ...transition, delay: 0 } },
 };

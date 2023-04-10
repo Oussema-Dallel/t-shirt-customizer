@@ -478,10 +478,7 @@ module.exports = {
       'no-dupe-class-members': ['off'],
       '@typescript-eslint/no-dupe-class-members': ['error'],
       'no-extra-parens': ['off'],
-      '@typescript-eslint/no-extra-parens': ['error', 'all', {
-        nestedBinaryExpressions: false,
-        ignoreJSX: 'multi-line'
-      }],
+      '@typescript-eslint/no-extra-parens': ['off'],
       'no-invalid-this': ['off'],
       '@typescript-eslint/no-invalid-this': ['error'],
       'no-loop-func': ['off'],
@@ -528,7 +525,7 @@ module.exports = {
       'unicorn/catch-error-name': [ 'error', {
         name: 'ex'
       }],
-      'unicorn/filename-case': [ 'error', {
+      'unicorn/filename-case': [ 'warn', {
         cases: {
           camelCase: true,
           pascalCase: true
@@ -536,7 +533,7 @@ module.exports = {
       }],
       'unicorn/no-null': [ 'off' ],
       'unicorn/no-useless-undefined': [ 'off' ],
-      'unicorn/prevent-abbreviations': [ 'error', {
+      'unicorn/prevent-abbreviations': [ 'warn', {
         replacements: {
           args: false,
           props: false

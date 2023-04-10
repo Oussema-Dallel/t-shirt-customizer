@@ -22,7 +22,10 @@
     "src",  
     "src/**/*.ts",
     "src/**/*.tsx",
-    "jestSetup.ts"
+    "jestSetup.ts",
+    "postcss.config.js",
+    "tailwind.config.js",
+    "babel.config.js"
   ],
   "exclude": ["/node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]

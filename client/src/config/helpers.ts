@@ -26,7 +26,7 @@ const reader = async (file: File): Promise<unknown> =>
 		fileReader.readAsDataURL(file);
 	});
 
-const getContrastingColor = (color: unknown) => {
+const getContrastingColor = (color: string): 'black' | 'white' => {
 	// Remove the '#' character if it exists
 	const hex = color.replace('#', '');
 
