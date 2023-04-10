@@ -23,8 +23,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "jestSetup.ts",
-    "postcss.config.js",
-    "tailwind.config.js",
+    "postcss.config.cjs",
+    "tailwind.config.cjs",
     "babel.config.js"
   ],
   "exclude": ["/node_modules"],
