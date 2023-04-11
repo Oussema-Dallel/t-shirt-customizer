@@ -13,7 +13,7 @@ interface AppState {
 
 const initialState: AppState = {
 	color: '#ce9418',
-	fullDecal: './three.png',
+	fullDecal: './threejs.png',
 	isFullTexture: false,
 	isIntro: true,
 	isLogoTexture: true,
