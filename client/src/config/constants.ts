@@ -1,6 +1,11 @@
 import { ai, fileIcon, logoShirt, stylishShirt, swatch } from '../assets';
 
-const EditorTabs = [
+interface Tab {
+	icon: string;
+	name: string;
+}
+
+const EditorTabs: Tab[] = [
 	{
 		name: 'colorpicker',
 		icon: swatch,
@@ -15,7 +20,7 @@ const EditorTabs = [
 	},
 ];
 
-const FilterTabs = [
+const FilterTabs: Tab[] = [
 	{
 		name: 'logoShirt',
 		icon: logoShirt,
@@ -38,3 +43,4 @@ const DecalTypes = {
 };
 
 export { DecalTypes, EditorTabs, FilterTabs };
+export type { Tab };
