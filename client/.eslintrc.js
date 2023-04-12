@@ -157,6 +157,7 @@ module.exports = {
         unnamedComponents: 'arrow-function'
       }],
       'react/no-adjacent-inline-elements': [ 'off' ],
+      'react/forbid-component-props': [ 'off' ],
       'react/no-set-state': [ 'off' ],
       'react/react-in-jsx-scope': [ 'off' ],
       'react/require-default-props': [ 'off' ],

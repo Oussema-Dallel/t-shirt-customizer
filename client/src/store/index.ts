@@ -1,9 +1,9 @@
-import type { Color } from 'react-color';
+import type { ColorRepresentation } from 'three';
 import type { FilePath } from 'tailwindcss/types/config';
 import { proxy } from 'valtio';
 
 interface AppState {
-	color: Color;
+	color: ColorRepresentation;
 	fullDecal: FilePath;
 	isFullTexture: boolean;
 	isIntro: boolean;
