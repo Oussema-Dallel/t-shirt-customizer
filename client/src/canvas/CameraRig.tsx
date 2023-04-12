@@ -6,7 +6,7 @@ import { useSnapshot } from 'valtio';
 import type { FunctionComponent, ReactElement } from 'react';
 
 interface CameraRigProps {
-	children: ReactElement[];
+	children: ReactElement | ReactElement[];
 }
 
 const CameraRig: FunctionComponent<CameraRigProps> = ({ children }): ReactElement => {

@@ -12,7 +12,8 @@ const TShirt: FunctionComponent = (): ReactElement => {
 	const fullTexture = useTexture(fullDecal);
 
 	useFrame((state, delta) => {
-		easing.dampC(materials.lambert1.color, color, 0.25, delta);
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+		return easing.dampC(materials.lambert1.color, color, 0.25, delta);
 	});
 
 	return (
