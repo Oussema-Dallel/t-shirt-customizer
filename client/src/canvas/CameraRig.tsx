@@ -1,11 +1,12 @@
 import { easing } from 'maath';
 import { globalState } from '../store';
 import { useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
 import { useSnapshot } from 'valtio';
-import { type FunctionComponent, type ReactElement, useRef } from 'react';
+import type { FunctionComponent, ReactElement } from 'react';
 
 interface CameraRigProps {
-	children: ReactElement;
+	children: ReactElement[];
 }
 
 const CameraRig: FunctionComponent<CameraRigProps> = ({ children }): ReactElement => {

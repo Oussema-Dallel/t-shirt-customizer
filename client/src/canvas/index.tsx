@@ -1,3 +1,4 @@
+import { Backdrop } from './Backdrop';
 import { CameraRig } from './CameraRig';
 import { Canvas } from '@react-three/fiber';
 import { TShirt } from './TShirt';
@@ -11,7 +12,7 @@ const CanvasModel: FunctionComponent = (): ReactElement => {
 			<ambientLight intensity={ 0.5 } />
 			<Environment preset='city' />
 			<CameraRig>
-				{ /*<BackDrop /> */ }
+				<Backdrop />
 				<Center>
 					<TShirt />
 				</Center>
