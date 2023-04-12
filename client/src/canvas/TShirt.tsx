@@ -1,7 +1,7 @@
-import type { FunctionComponent, ReactElement } from 'react';
-import { useSnapshot } from 'valtio';
 import { globalState } from '../store';
+import { useSnapshot } from 'valtio';
 import { Decal, useGLTF, useTexture } from '@react-three/drei';
+import type { FunctionComponent, ReactElement } from 'react';
 
 const TShirt: FunctionComponent = (): ReactElement => {
 	const snap = useSnapshot(globalState);
