@@ -1,24 +1,46 @@
 import { globalState } from '../store';
+import type { Tab as TabType } from '../config/constants';
 import { useSnapshot } from 'valtio';
 import { AIPicker, ColorPicker, CustomButton, FilePicker, Tab } from '../components';
 import { AnimatePresence, motion } from 'framer-motion';
 import { EditorTabs, FilterTabs } from '../config/constants';
 import { fadeAnimation, slideAnimation } from '../config/motion';
-import { type FunctionComponent, type ReactElement, useCallback } from 'react';
+import { type FunctionComponent, type ReactElement, useCallback, useState } from 'react';
 
 const Customizer: FunctionComponent = (): ReactElement => {
 	const snap = useSnapshot(globalState);
+
+	const [ activeEditorTab, setActiveEditorTab ] = useState<TabType>(EditorTabs[0]);
+
 	const onHandleBack = useCallback(() => {
 		globalState.isIntro = true;
 	}, [ ]);
 
-	const onHandleEditorTabClick = useCallback(() => {
-		// TODO: Handle tab click
+	const onHandleEditorTabClick = useCallback((tab: TabType) => {
+		setActiveEditorTab(tab);
 	}, [ ]);
 
 	const onHandleFilterTabClick = useCallback(() => {
 		// TODO: Handle tab click
 	}, [ ]);
+
+	// show tab content depending on the active tab
+	const renderTabContent = useCallback(() => {
+		switch (activeEditorTab.name) {
+			case 'filepicker': {
+				return <FilePicker />;
+			}
+			case 'colorpicker': {
+				return <ColorPicker />;
+			}
+			case 'aipicker': {
+				return <AIPicker />;
+			}
+			default: {
+				return null;
+			}
+		}
+	}, [ activeEditorTab.name ]);
 
 	return (
 		<AnimatePresence>
@@ -40,6 +62,7 @@ const Customizer: FunctionComponent = (): ReactElement => {
 											tab={ tab }
 										/>
 									)) }
+									{ renderTabContent() }
 								</div>
 							</div>
 						</motion.div>
@@ -60,7 +83,6 @@ const Customizer: FunctionComponent = (): ReactElement => {
 						>
 							{ FilterTabs.map((tab) => (
 								<Tab
-									activeTab=''
 									handleClick={ onHandleFilterTabClick }
 									isFilterTab
 									key={ tab.name }
