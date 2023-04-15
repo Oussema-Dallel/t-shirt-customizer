@@ -3,7 +3,7 @@ import { isNil } from '../utils/isNil';
 import { type ChangeEvent, type FunctionComponent, type ReactElement, useCallback } from 'react';
 
 interface FilePickerProps {
-	file: File;
+	file: File | undefined;
 	readFile: (type: 'full' | 'logo') => void;
 	setFile: (filePath: File) => void;
 }
@@ -21,7 +21,6 @@ const FilePicker: FunctionComponent<FilePickerProps> = ({
 	}, [ setFile ]);
 
 	const onHandleReadLogo = useCallback(() => {
-		console.log('read logo');
 		readFile('logo');
 	}, [ readFile ]);
 
@@ -39,16 +38,16 @@ const FilePicker: FunctionComponent<FilePickerProps> = ({
 					type="file"
 				/>
 				<label
-					className='filepicker-picker'
+					className='filepicker-label'
 					htmlFor="file-upload"
 				>
 					Upload File
 				</label>
-				<p>
+				<p className='mt-2 text-gray-500 text-xs truncate'>
 					{ isNil(file) ? 'No file selected' : file.name }
 				</p>
 			</div>
-			<div className='mt-4  flex flex-wrap gap-3'>
+			<div className='mt-4 flex flex-wrap gap-3'>
 				<CustomButton
 					customStyles='text-xs'
 					handleClick={ onHandleReadLogo }

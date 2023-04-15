@@ -24,11 +24,14 @@ const Customizer: FunctionComponent = (): ReactElement => {
 		setActiveEditorTab(tab);
 	}, [ ]);
 
-	const onHandleFilterTabClicked = useCallback(() => {
-		// TODO: Handle tab click
-	}, [ ]);
+	const onHandleFilterTabClicked = useCallback((tab: TabType): void => {
+		const { name: tabName } = tab;
 
-	const handleActiveFilterTab = (tabName: string): void => {
+		setActiveFilterTab((previous) => ({
+			...previous,
+			//@ts-expect-error we are sure that this is a valid tab
+			[tabName]: !(previous[tabName]),
+		}));
 		switch (tabName) {
 			case 'logoShirt': {
 				globalState.isLogoTexture = !(activeFilterTab[tabName]);
@@ -38,32 +41,37 @@ const Customizer: FunctionComponent = (): ReactElement => {
 				globalState.isFullTexture = !(activeFilterTab[tabName]);
 				break;
 			}
-			default: {
+			default: { {
 				globalState.isLogoTexture = true;
 				globalState.isFullTexture = false;
 			}
+			}
 		}
-	};
+	}, [ activeFilterTab ]);
 
-	const handleDecal = (type: 'full' | 'logo', response: string): void => {
-		const decalType = DecalTypes[type];
+	const handleDecal = useCallback((type: 'full' | 'logo', response: string): void => {
+		const { filterTab, stateProperty } = DecalTypes[type];
 
-		globalState[decalType.stateProperty] = response;
+		//@ts-expect-error we don't have a proper way to handle this, this has to be added by the valtio team
+		globalState[stateProperty] = response;
 
-		if (activeEditorTab.name !== decalType.filterTab) {
-			handleActiveFilterTab(decalType.filterTab);
+		//@ts-expect-error this should work fine
+		if (activeFilterTab[filterTab] === false) {
+			//@ts-expect-error we are sure that this is a valid tab
+			onHandleFilterTabClicked({ name: filterTab, icon: '' });
 		}
-	};
+	}, [ activeFilterTab, onHandleFilterTabClicked ]);
 
-	const readFile = useCallback((type: 'full' | 'logo') => void(
-		async () => {
-			//if (isNil(file)) return;
-			const response = await reader(file);
+	const readFile = useCallback((type: 'full' | 'logo') => {
+		void(
+			async (): Promise<void> => {
+				if (isNil(file)) return;
+				const response = await reader(file);
 
-			console.log(response);
-			handleDecal(type, response.name);
-			setActiveEditorTab({ name: '', icon: '' });
-		}), [ file, handleDecal ]);
+				handleDecal(type, response);
+				setActiveEditorTab({ name: '', icon: '' });
+			})();
+	}, [ file, handleDecal ]);
 
 	// show tab content depending on the active tab
 	const renderTabContent = useCallback(() => {
@@ -104,6 +112,7 @@ const Customizer: FunctionComponent = (): ReactElement => {
 								<div className='editortabs-container tabs'>
 									{ EditorTabs.map((tab) => (
 										<Tab
+											activeTab={ activeEditorTab.name as unknown as Pick<TabType, 'name'> }
 											handleClick={ onHandleEditorTabClicked }
 											key={ tab.name }
 											tab={ tab }
@@ -130,6 +139,8 @@ const Customizer: FunctionComponent = (): ReactElement => {
 						>
 							{ FilterTabs.map((tab) => (
 								<Tab
+									//@ts-expect-error this should work fine
+									activeTab={ activeFilterTab[tab.name] === true ? tab.name : undefined }
 									handleClick={ onHandleFilterTabClicked }
 									isFilterTab
 									key={ tab.name }

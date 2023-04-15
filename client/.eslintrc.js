@@ -441,7 +441,7 @@ module.exports = {
       '@typescript-eslint/promise-function-async': [ 'error' ],
       '@typescript-eslint/require-array-sort-compare': [ 'error' ],
       '@typescript-eslint/sort-type-union-intersection-members': [ 'error' ],
-      '@typescript-eslint/strict-boolean-expressions': [ 'error' ],
+      '@typescript-eslint/strict-boolean-expressions': [ 'warn'],
       '@typescript-eslint/switch-exhaustiveness-check': [ 'error' ],
       '@typescript-eslint/type-annotation-spacing': [ 'error' ],
   

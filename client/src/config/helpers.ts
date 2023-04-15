@@ -16,7 +16,7 @@ const downloadCanvasToImage = (): void => {
 	link.remove();
 };
 
-const reader = async (file: File): Promise<unknown> => {
+const reader = async (file: File): Promise<string> => {
 	const fileResult = await new Promise((resolve) => {
 		const fileReader = new FileReader();
 
@@ -27,7 +27,7 @@ const reader = async (file: File): Promise<unknown> => {
 		fileReader.readAsDataURL(file);
 	});
 
-	return fileResult;
+	return fileResult as string;
 };
 
 const getContrastingColor = (color: string): 'black' | 'white' => {
