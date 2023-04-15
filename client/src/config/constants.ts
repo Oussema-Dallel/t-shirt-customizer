@@ -2,7 +2,7 @@ import { ai, fileIcon, logoShirt, stylishShirt, swatch } from '../assets';
 
 interface Tab {
 	icon: string;
-	name: 'aipicker' | 'colorpicker' | 'filepicker' | 'logoShirt' | 'stylishShirt';
+	name: '' | 'aipicker' | 'colorpicker' | 'filepicker' | 'logoShirt' | 'stylishShirt';
 }
 
 const EditorTabs: Tab[] = [
