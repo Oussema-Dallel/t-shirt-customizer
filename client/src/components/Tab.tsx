@@ -1,17 +1,19 @@
 import { globalState } from '../store';
-import type { Tab as TabType } from '../config/constants';
 import { useSnapshot } from 'valtio';
+import { type ActiveTab, TabName, type Tab as TabType } from '../config/constants';
 import type { CSSProperties, FunctionComponent, ReactElement } from 'react';
 import { useCallback, useMemo } from 'react';
 
 interface TabProps {
-	activeTab?: Pick<TabType, 'name'>;
+	activeTab?: ActiveTab;
 	handleClick: (tab: TabType) => void;
 	isFilterTab?: boolean;
 	tab: TabType;
 }
 
-const Tab: FunctionComponent<TabProps> = ({ tab, handleClick, activeTab = 'colorpicker', isFilterTab = false }): ReactElement => {
+const Tab: FunctionComponent<TabProps> = (
+	{ tab, handleClick, activeTab = TabName.EMPTY, isFilterTab = false },
+): ReactElement => {
 	const { color } = useSnapshot(globalState);
 
 	const handleTabClicked = useCallback(() => {
