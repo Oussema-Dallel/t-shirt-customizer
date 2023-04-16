@@ -1,0 +1,10 @@
+node_mudles
+dist
+dist-ssr
+
+public
+.eslintrc.js
+
+src/assets
+
+*.png

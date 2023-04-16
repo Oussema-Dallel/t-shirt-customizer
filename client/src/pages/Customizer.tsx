@@ -1,8 +1,8 @@
 import { globalState } from '../store';
 import { isNil } from '../utils/isNil';
 import { reader } from '../config/helpers';
-import type { ActiveTab, Tab as TabType } from '../config/constants';
 import { useSnapshot } from 'valtio';
+import type { ActiveTab, Tab as TabType } from '../config/constants';
 import { AIPicker, ColorPicker, CustomButton, FilePicker, Tab } from '../components';
 import { AnimatePresence, motion } from 'framer-motion';
 import { DecalTypes, EditorTabs, FilterTabs, TabName } from '../config/constants';
