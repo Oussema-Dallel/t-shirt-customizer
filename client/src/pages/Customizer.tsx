@@ -1,16 +1,16 @@
 import { globalState } from '../store';
 import { isNil } from '../utils/isNil';
 import { reader } from '../config/helpers';
-import type { Tab as TabType } from '../config/constants';
+import type { ActiveTab, Tab as TabType } from '../config/constants';
 import { useSnapshot } from 'valtio';
 import { AIPicker, ColorPicker, CustomButton, FilePicker, Tab } from '../components';
 import { AnimatePresence, motion } from 'framer-motion';
-import { DecalTypes, EditorTabs, FilterTabs } from '../config/constants';
+import { DecalTypes, EditorTabs, FilterTabs, TabName } from '../config/constants';
 import { fadeAnimation, slideAnimation } from '../config/motion';
 import { type FunctionComponent, type ReactElement, useCallback, useState } from 'react';
 
 const Customizer: FunctionComponent = (): ReactElement => {
-	const snap = useSnapshot(globalState);
+	const { isIntro } = useSnapshot(globalState);
 
 	const [ activeEditorTab, setActiveEditorTab ] = useState<TabType>(EditorTabs[0]);
 	const [ activeFilterTab, setActiveFilterTab ] = useState({ logoShirt: true, stylishShirt: false });
@@ -57,7 +57,6 @@ const Customizer: FunctionComponent = (): ReactElement => {
 
 		//@ts-expect-error this should work fine
 		if (activeFilterTab[filterTab] === false) {
-			//@ts-expect-error we are sure that this is a valid tab
 			onHandleFilterTabClicked({ name: filterTab, icon: '' });
 		}
 	}, [ activeFilterTab, onHandleFilterTabClicked ]);
@@ -69,7 +68,7 @@ const Customizer: FunctionComponent = (): ReactElement => {
 				const response = await reader(file);
 
 				handleDecal(type, response);
-				setActiveEditorTab({ name: '', icon: '' });
+				setActiveEditorTab({ name: TabName.EMPTY, icon: '' });
 			})();
 	}, [ file, handleDecal ]);
 
@@ -99,7 +98,7 @@ const Customizer: FunctionComponent = (): ReactElement => {
 
 	return (
 		<AnimatePresence>
-			{ snap.isIntro
+			{ isIntro
 				? null
 				: (
 					<>
@@ -112,7 +111,7 @@ const Customizer: FunctionComponent = (): ReactElement => {
 								<div className='editortabs-container tabs'>
 									{ EditorTabs.map((tab) => (
 										<Tab
-											activeTab={ activeEditorTab.name as unknown as Pick<TabType, 'name'> }
+											activeTab={ activeEditorTab.name as ActiveTab }
 											handleClick={ onHandleEditorTabClicked }
 											key={ tab.name }
 											tab={ tab }
