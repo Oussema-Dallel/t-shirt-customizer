@@ -1,7 +1,12 @@
-import { CorsOptions } from 'cors';
+import type { Express } from 'express';
+import express from 'express';
 
-console.log(
-	'Hello World',
-);
+const app: Express = express();
 
-const n = 'Hello World';
+app.get('/', (request, response) => {
+	response.send('Hello World!');
+});
+
+app.listen(3000, () => {
+	console.log('Server is running on port 3000');
+});
