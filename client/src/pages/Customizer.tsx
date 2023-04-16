@@ -1,28 +1,104 @@
 import { globalState } from '../store';
+import { isNil } from '../utils/isNil';
+import { reader } from '../config/helpers';
+import type { ActiveTab, Tab as TabType } from '../config/constants';
 import { useSnapshot } from 'valtio';
 import { AIPicker, ColorPicker, CustomButton, FilePicker, Tab } from '../components';
 import { AnimatePresence, motion } from 'framer-motion';
-import { EditorTabs, FilterTabs } from '../config/constants';
+import { DecalTypes, EditorTabs, FilterTabs, TabName } from '../config/constants';
 import { fadeAnimation, slideAnimation } from '../config/motion';
-import { type FunctionComponent, type ReactElement, useCallback } from 'react';
+import { type FunctionComponent, type ReactElement, useCallback, useState } from 'react';
 
 const Customizer: FunctionComponent = (): ReactElement => {
-	const snap = useSnapshot(globalState);
+	const { isIntro } = useSnapshot(globalState);
+
+	const [ activeEditorTab, setActiveEditorTab ] = useState<TabType>(EditorTabs[0]);
+	const [ activeFilterTab, setActiveFilterTab ] = useState({ logoShirt: true, stylishShirt: false });
+	const [ file, setFile ] = useState<File>();
+
 	const onHandleBack = useCallback(() => {
 		globalState.isIntro = true;
 	}, [ ]);
 
-	const onHandleEditorTabClick = useCallback(() => {
-		// TODO: Handle tab click
+	const onHandleEditorTabClicked = useCallback((tab: TabType) => {
+		setActiveEditorTab(tab);
 	}, [ ]);
 
-	const onHandleFilterTabClick = useCallback(() => {
-		// TODO: Handle tab click
-	}, [ ]);
+	const onHandleFilterTabClicked = useCallback((tab: TabType): void => {
+		const { name: tabName } = tab;
+
+		setActiveFilterTab((previous) => ({
+			...previous,
+			//@ts-expect-error we are sure that this is a valid tab
+			[tabName]: !(previous[tabName]),
+		}));
+		switch (tabName) {
+			case 'logoShirt': {
+				globalState.isLogoTexture = !(activeFilterTab[tabName]);
+				break;
+			}
+			case 'stylishShirt': {
+				globalState.isFullTexture = !(activeFilterTab[tabName]);
+				break;
+			}
+			default: { {
+				globalState.isLogoTexture = true;
+				globalState.isFullTexture = false;
+			}
+			}
+		}
+	}, [ activeFilterTab ]);
+
+	const handleDecal = useCallback((type: 'full' | 'logo', response: string): void => {
+		const { filterTab, stateProperty } = DecalTypes[type];
+
+		//@ts-expect-error we don't have a proper way to handle this, this has to be added by the valtio team
+		globalState[stateProperty] = response;
+
+		//@ts-expect-error this should work fine
+		if (activeFilterTab[filterTab] === false) {
+			onHandleFilterTabClicked({ name: filterTab, icon: '' });
+		}
+	}, [ activeFilterTab, onHandleFilterTabClicked ]);
+
+	const readFile = useCallback((type: 'full' | 'logo') => {
+		void(
+			async (): Promise<void> => {
+				if (isNil(file)) return;
+				const response = await reader(file);
+
+				handleDecal(type, response);
+				setActiveEditorTab({ name: TabName.EMPTY, icon: '' });
+			})();
+	}, [ file, handleDecal ]);
+
+	// show tab content depending on the active tab
+	const renderTabContent = useCallback(() => {
+		switch (activeEditorTab.name) {
+			case 'filepicker': {
+				return (
+					<FilePicker
+						file={ file }
+						readFile={ readFile }
+						setFile={ setFile }
+					/>
+				);
+			}
+			case 'colorpicker': {
+				return <ColorPicker />;
+			}
+			case 'aipicker': {
+				return <AIPicker />;
+			}
+			default: {
+				return null;
+			}
+		}
+	}, [ activeEditorTab.name, file, readFile ]);
 
 	return (
 		<AnimatePresence>
-			{ snap.isIntro
+			{ isIntro
 				? null
 				: (
 					<>
@@ -35,11 +111,13 @@ const Customizer: FunctionComponent = (): ReactElement => {
 								<div className='editortabs-container tabs'>
 									{ EditorTabs.map((tab) => (
 										<Tab
-											handleClick={ onHandleEditorTabClick }
+											activeTab={ activeEditorTab.name as ActiveTab }
+											handleClick={ onHandleEditorTabClicked }
 											key={ tab.name }
 											tab={ tab }
 										/>
 									)) }
+									{ renderTabContent() }
 								</div>
 							</div>
 						</motion.div>
@@ -60,8 +138,9 @@ const Customizer: FunctionComponent = (): ReactElement => {
 						>
 							{ FilterTabs.map((tab) => (
 								<Tab
-									activeTab=''
-									handleClick={ onHandleFilterTabClick }
+									//@ts-expect-error this should work fine
+									activeTab={ activeFilterTab[tab.name] === true ? tab.name : undefined }
+									handleClick={ onHandleFilterTabClicked }
 									isFilterTab
 									key={ tab.name }
 									tab={ tab }

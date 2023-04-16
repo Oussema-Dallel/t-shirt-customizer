@@ -16,15 +16,19 @@ const downloadCanvasToImage = (): void => {
 	link.remove();
 };
 
-const reader = async (file: File): Promise<unknown> =>
-	await new Promise((resolve) => {
+const reader = async (file: File): Promise<string> => {
+	const fileResult = await new Promise((resolve) => {
 		const fileReader = new FileReader();
 
 		fileReader.addEventListener('load', () => {
 			resolve(fileReader.result);
 		});
+
 		fileReader.readAsDataURL(file);
 	});
+
+	return fileResult as string;
+};
 
 const getContrastingColor = (color: string): 'black' | 'white' => {
 	// Remove the '#' character if it exists

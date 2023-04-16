@@ -1,3 +1,4 @@
+import { getContrastingColor } from '../config/helpers';
 import { globalState } from '../store';
 import { useSnapshot } from 'valtio';
 import { type FunctionComponent, type ReactElement, useCallback } from 'react';
@@ -22,7 +23,13 @@ const CustomButton: FunctionComponent<CustomButtonProps> = ({
 			if (type === 'filled') {
 				return {
 					backgroundColor: color as string,
-					color: '#fff',
+					color: getContrastingColor(color as string),
+				};
+			} else if (type === 'outline') {
+				return {
+					backgroundColor: 'transparent',
+					border: `1px solid ${color as string}`,
+					color: color as string,
 				};
 			}
 		},

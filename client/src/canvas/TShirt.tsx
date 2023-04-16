@@ -7,6 +7,7 @@ import type { FunctionComponent, ReactElement } from 'react';
 
 const TShirt: FunctionComponent = (): ReactElement => {
 	const { color, isFullTexture, isLogoTexture, logoDecal, fullDecal } = useSnapshot(globalState);
+	//@ts-expect-error this depends on the model, which in this case is shirt_baked.glb
 	const { nodes, materials } = useGLTF('./shirt_baked.glb');
 	const logoTexture = useTexture(logoDecal);
 	const fullTexture = useTexture(fullDecal);
