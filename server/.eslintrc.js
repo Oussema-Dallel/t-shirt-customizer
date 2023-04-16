@@ -9,11 +9,11 @@ module.exports = {
 		'plugin:jest/recommended',
 		'plugin:unicorn/recommended',
 	],
-	//parser: '@typescript-eslint/parser',
+	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		project: './tsconfig.json',
 		tsconfigRootDir: __dirname,
-		parser: '@typescript-eslint/parser',
+		//parser: '@typescript-eslint/parser',
 		ecmaVersion: 2020,
 		sourceType: 'module',
 	},
@@ -518,5 +518,4 @@ module.exports = {
 		],
 		'unicorn/prefer-ternary': [ 'off' ],
 	},
-	includes: [ 'tsconfig.json' ],
 };
