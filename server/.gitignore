@@ -3,3 +3,8 @@ dist
 
 # eslint
 .eslintcache
+
+.env
+.env.local
+
+**.http
