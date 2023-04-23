@@ -3,9 +3,6 @@ import { dalleRouter } from './routes/dalle.routes';
 import type { Express } from 'express';
 import express from 'express';
 import { PORT } from './utils/constants';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 const app: Express = express();
 
