@@ -1,0 +1,10 @@
+node_modules
+dist
+
+# eslint
+.eslintcache
+
+.env
+.env.local
+
+**.http
