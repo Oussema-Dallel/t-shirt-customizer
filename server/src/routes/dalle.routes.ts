@@ -18,7 +18,6 @@ router.route('/generate').post((request, response) =>
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const { prompt } = request.body;
 
-			console.log(prompt);
 			const result = await openai.createImage({
 				prompt: prompt as string,
 				n: 1,

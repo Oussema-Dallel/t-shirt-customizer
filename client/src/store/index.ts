@@ -20,7 +20,7 @@ const initialState: AppState = {
 	logoDecal: './threejs.png',
 };
 
-const globalState = proxy(initialState);
+const globalState = proxy<AppState>(initialState);
 
 export { globalState };
 export type { AppState };

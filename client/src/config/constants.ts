@@ -9,6 +9,8 @@ const enum TabName {
 	EMPTY = '',
 }
 
+const BackendUrl = import.meta.env.VITE_BACKEND_URL as string;
+
 type ActiveTab = TabName.EMPTY | TabName.LOGO_SHIRT | TabName.STYLISH_SHIRT;
 
 interface Tab {
@@ -53,5 +55,5 @@ const DecalTypes = {
 	},
 };
 
-export { DecalTypes, EditorTabs, FilterTabs, TabName };
+export { DecalTypes, EditorTabs, FilterTabs, TabName, BackendUrl };
 export type { Tab, ActiveTab };

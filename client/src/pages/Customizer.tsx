@@ -1,11 +1,12 @@
 import { globalState } from '../store';
+import { isImage } from '../utils/DallEResponse';
 import { isNil } from '../utils/isNil';
 import { reader } from '../config/helpers';
 import { useSnapshot } from 'valtio';
 import type { ActiveTab, Tab as TabType } from '../config/constants';
 import { AIPicker, ColorPicker, CustomButton, FilePicker, Tab } from '../components';
 import { AnimatePresence, motion } from 'framer-motion';
-import { DecalTypes, EditorTabs, FilterTabs, TabName } from '../config/constants';
+import { BackendUrl, DecalTypes, EditorTabs, FilterTabs, TabName } from '../config/constants';
 import { fadeAnimation, slideAnimation } from '../config/motion';
 import { type FunctionComponent, type ReactElement, useCallback, useState } from 'react';
 
@@ -15,6 +16,8 @@ const Customizer: FunctionComponent = (): ReactElement => {
 	const [ activeEditorTab, setActiveEditorTab ] = useState<TabType>(EditorTabs[0]);
 	const [ activeFilterTab, setActiveFilterTab ] = useState({ logoShirt: true, stylishShirt: false });
 	const [ file, setFile ] = useState<File>();
+	const [ prompt, setPrompt ] = useState('');
+	const [ generatingImage, setGeneratingImage ] = useState(false);
 
 	const onHandleBack = useCallback(() => {
 		globalState.isIntro = true;
@@ -61,6 +64,37 @@ const Customizer: FunctionComponent = (): ReactElement => {
 		}
 	}, [ activeFilterTab, onHandleFilterTabClicked ]);
 
+	const onHandleGenerateImage = useCallback((type: 'full' | 'logo'): void => {
+		void(
+			async (): Promise<void> => {
+				setGeneratingImage(true);
+				if (prompt === '') return;
+				try {
+					const response = await fetch(`${BackendUrl}/api/v1/dalle/generate`, {
+						method: 'POST',
+						headers: {
+							// eslint-disable-next-line @typescript-eslint/naming-convention
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({
+							prompt: prompt,
+						}),
+					});
+					const data: unknown = await response.json();
+
+					if (!isImage(data)) return;
+
+					const { photo } = data ;
+
+					handleDecal(type, `data:image/png;base64,${photo}`);
+					setGeneratingImage(false);
+				} catch (ex) {
+					setGeneratingImage(false);
+					console.log(ex);
+				}
+			})();
+	}, [ handleDecal, prompt ]);
+
 	const readFile = useCallback((type: 'full' | 'logo') => {
 		void(
 			async (): Promise<void> => {
@@ -88,13 +122,20 @@ const Customizer: FunctionComponent = (): ReactElement => {
 				return <ColorPicker />;
 			}
 			case 'aipicker': {
-				return <AIPicker />;
+				return (
+					<AIPicker
+						generatingImage={ generatingImage }
+						handleGenerateImage={ onHandleGenerateImage }
+						prompt={ prompt }
+						setPrompt={ setPrompt }
+					/>
+				);
 			}
 			default: {
 				return null;
 			}
 		}
-	}, [ activeEditorTab.name, file, readFile ]);
+	}, [ activeEditorTab.name, file, generatingImage, onHandleGenerateImage, prompt, readFile ]);
 
 	return (
 		<AnimatePresence>

@@ -1,3 +1,4 @@
+import type { AppState } from '../store';
 import { getContrastingColor } from '../config/helpers';
 import { globalState } from '../store';
 import { useSnapshot } from 'valtio';
@@ -16,7 +17,7 @@ const CustomButton: FunctionComponent<CustomButtonProps> = ({
 	type,
 	title,
 }): ReactElement => {
-	const { color } = useSnapshot(globalState);
+	const { color } = useSnapshot<AppState>(globalState);
 
 	const generateStyle = useCallback(
 		() => {
@@ -38,7 +39,7 @@ const CustomButton: FunctionComponent<CustomButtonProps> = ({
 
 	return (
 		<button
-			className={ `px-2 py1.5 flex-1 rounded-md ${customStyles}` }
+			className={ `px-2 py-1.5 flex-1 rounded-md ${customStyles}` }
 			onClick={ handleClick }
 			style={ generateStyle() }
 			type='button'
